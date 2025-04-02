@@ -1,35 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>CTWR Word Cloud</title>
   <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.1.0/src/wordcloud2.min.js"></script>
   <style>
     body {
-      font-family: sans-serif;
+      background: #f4f4f9;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
       margin: 0;
       padding: 2rem;
+      color: #333;
     }
+
+    h1 {
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      margin-top: 0;
+      color: #555;
+    }
+
+    form {
+      margin-top: 1.5rem;
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 220px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      background-color: #005bbb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #003f88;
+    }
+
     canvas {
       width: 100%;
       height: 60vh;
-      border: 1px solid #ddd;
+      margin-top: 2rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
     }
-    form {
-      margin: 1rem auto;
+
+    #resetBtn {
+      margin-top: 1rem;
+      background: #ccc;
+      color: #333;
+    }
+
+    #resetBtn:hover {
+      background: #aaa;
     }
   </style>
 </head>
 <body>
-
   <h1>CTWR Word Cloud</h1>
-  <p>What’s on your mind? Type a word or hashtag!</p>
+  <p>What's on your mind? Type a word or hashtag below.</p>
 
   <form id="wordForm">
-    <input type="text" id="wordInput" placeholder="#YouthIdeas" required>
+    <input type="text" id="wordInput" placeholder="#YouthIdeas" required />
     <button type="submit">Add Word</button>
   </form>
+
+  <button id="resetBtn">Clear Word Cloud</button>
 
   <canvas id="wordCloudCanvas"></canvas>
 
