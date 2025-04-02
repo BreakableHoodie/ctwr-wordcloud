@@ -2,6 +2,14 @@ let words = JSON.parse(localStorage.getItem("ctwrWords")) || [];
 
 function renderWordCloud() {
   const canvas = document.getElementById("wordCloudCanvas");
+  const ctx = canvas.getContext('2d');
+  const ratio = window.devicePixelRatio || 1;
+
+  // Set canvas size for HiDPI
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
   const wordList = words.map((word) => [word, 10 + Math.floor(Math.random() * 40)]);
 
   WordCloud(canvas, {
