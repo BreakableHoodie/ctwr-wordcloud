@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTWR Word Cloud</title>
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.1.0/src/wordcloud2.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 2rem;
+    }
+    canvas {
+      width: 100%;
+      height: 60vh;
+      border: 1px solid #ddd;
+    }
+    form {
+      margin: 1rem auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CTWR Word Cloud</h1>
+  <p>What’s on your mind? Type a word or hashtag!</p>
+
+  <form id="wordForm">
+    <input type="text" id="wordInput" placeholder="#YouthIdeas" required>
+    <button type="submit">Add Word</button>
+  </form>
+
+  <canvas id="wordCloudCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
