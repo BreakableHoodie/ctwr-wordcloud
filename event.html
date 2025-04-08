@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CTWR Word Cloud</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="images/logo-black.png" />
+  </head>
+  <body class="light">
+    <!-- CivicTech Branding and Link -->
+    <header id="header">
+      <img
+        id="logo"
+        src="images/civictechwr_logo_black.png"
+        alt="CivicTech WR Logo"
+        onerror="this.src='images/logo-placeholder.png';"
+      />
+      <div>
+        <span class="tagline">Empowering Communities with Civic Tech</span>
+        <br />
+        <a href="https://civictechwr.org" target="_blank" id="home-link">
+          Visit CivicTech WR's Homepage
+        </a>
+      </div>
+    </header>
+
+    <!-- Event Title and Subtitle -->
+    <h1 id="eventTitle">Loading...</h1>
+    <p id="eventSubtitle"></p>
+
+    <!-- Toggle Options -->
+    <div id="toggles" style="margin-bottom: 20px">
+      <button id="darkToggle">🌓 Dark Mode</button>
+      <button id="kioskToggle">📺 Kiosk Mode</button>
+    </div>
+
+    <!-- Word Input Form -->
+    <form id="wordForm">
+      <input type="text" id="wordInput" placeholder="#YouthIdeas" required />
+      <button type="submit">Add Word</button>
+    </form>
+
+    <!-- Word Cloud Section -->
+    <svg id="wordCloudSVG" width="100%" height="500px"></svg>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <p>
+        Made with ❤️ by <a href="https://civictechwr.org" target="_blank">CivicTech WR</a>
+      </p>
+    </footer>
+
+    <script type="module">
+      window.addEventListener('DOMContentLoaded', (event) => {
+        const eventId = new URLSearchParams(window.location.search).get("e");
+        if (!eventId) {
+          document.getElementById("eventTitle").textContent = "Error";
+          document.getElementById("eventSubtitle").textContent =
+            "Missing event ID! Please use a valid link like ?e=example-event-2025";
+          return; // Return statement inside a function to stop further execution
+        }
+    
+      // Fetch event data using async/await with proper error handling and loading fallback
+      (async function loadEventData() {
+        try {
+          const response = await fetch(`/words?event=${eventId}`);
+          if (!response.ok) {
+            throw new Error("Failed to load event data.");
+          }
+          const eventData = await response.json();
+          if (!eventData.title || !eventData.subtitle) {
+            throw new Error("Incomplete event data.");
+          }
+          document.getElementById("eventTitle").textContent = eventData.title;
+          document.getElementById("eventSubtitle").textContent = eventData.subtitle;
+        } catch (error) {
+          document.getElementById("eventTitle").textContent = "Error";
+          document.getElementById("eventSubtitle").textContent =
+            "Failed to load event details. Please try again later.";
+          console.error(error);
+        }
+      })();
+      });
+
+      // Theme toggle functionality
+      const darkToggle = document.getElementById("darkToggle");
+      const body = document.body;
+
+      darkToggle.addEventListener("click", () => {
+        body.classList.toggle("dark");
+        body.classList.toggle("light");
+        const logo = document.getElementById("logo");
+        if (body.classList.contains("dark")) {
+          logo.src = "images/civictechwr_logo_white.png"; // White logo for dark mode
+        } else {
+          logo.src = "images/civictechwr_logo_black.png"; // Black logo for light mode
+        }
+      });
+
+      // Kiosk mode toggle
+      const kioskToggle = document.getElementById("kioskToggle");
+      kioskToggle.addEventListener("click", () => {
+        body.classList.toggle("kiosk");
+      });
+
+      // Form submission handling with bad word validation
+      document
+        .getElementById("wordForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const wordInput = document.getElementById("wordInput");
+          const word = wordInput.value.trim().toLowerCase();
+          // Check if word is profane (implement the bad word filter logic here)
+          if (isBadWord(word)) {
+            alert("Please avoid using inappropriate words.");
+            return;
+          }
+          // Add the word to the word cloud
+          addWordToCloud(word);
+          wordInput.value = ""; // Clear input field after submission
+        });
+
+      function isBadWord(word) {
+        // Replace this with your actual bad word checking logic
+        const badWordsList = ["badword1", "badword2"]; // Example bad words list
+        return badWordsList.includes(word);
+      }
+
+      function addWordToCloud(word) {
+        // Implement your word cloud rendering logic here
+        console.log("Adding word:", word);
+      }
+    </script>
+  </body>
+</html>
